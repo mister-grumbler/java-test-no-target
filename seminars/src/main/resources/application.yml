@@ -1,0 +1,16 @@
+server:
+  port: 8080
+  contextPath: /
+---
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+      dialect: org.hibernate.dialect.MySQLDialect
+  profiles: default
+  datasource:
+    name: coursedb
+    url: jdbc:mysql://localhost:3306/coursemodel
+    username: courseadm
+    password: MyCourseSQL
+    driverClassName: com.mysql.jdbc.Driver
