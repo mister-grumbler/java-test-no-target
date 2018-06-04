@@ -29,7 +29,7 @@ public class Seminar implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 /*	@OneToMany(mappedBy = "seminar", cascade = CascadeType.ALL)
-	private Set<SeminarProgress> progress; */
+	private Set<Progress> progress; */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PROFESSOR_ID", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)

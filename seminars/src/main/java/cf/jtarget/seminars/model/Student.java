@@ -25,5 +25,5 @@ public class Student {
 	private Integer marksBook;
 	@Column(name = "MARKSAVERAGE")
 	private Float marksAverage;
-//	private Set<SeminarProgress> progress;
+//	private Set<Progress> progress;
 }
