@@ -5,87 +5,87 @@ package cf.jtarget.seminars.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import cf.jtarget.seminars.model.Progress;
+import cf.jtarget.seminars.model.Seminar;
+import cf.jtarget.seminars.model.Student;
+import cf.jtarget.seminars.repositories.ProgressRepository;
 
 /**
  * @author dron
  *
  */
-@Service("ProgressService")
 public class ProgressServiceImpl implements ProgressService {
+	@Autowired
+	private ProgressRepository repo;
 
-	/* (non-Javadoc)
-	 * @see cf.jtarget.seminars.service.ProgressService#isExist(cf.jtarget.seminars.model.Progress)
-	 */
-	@Override
-	public boolean isExist(Progress instance) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cf.jtarget.seminars.service.ProgressService#findById(java.lang.Long)
 	 */
 	@Override
 	public Progress findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.getOne(id);
 	}
 
-	/* (non-Javadoc)
-	 * @see cf.jtarget.seminars.service.ProgressService#findByName(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cf.jtarget.seminars.service.ProgressService#listByStudent(cf.jtarget.seminars
+	 * .model.Student)
 	 */
 	@Override
-	public Progress findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Progress> listByStudent(Student instance) {
+		return repo.listByStudent(instance);
 	}
 
-	/* (non-Javadoc)
-	 * @see cf.jtarget.seminars.service.ProgressService#save(cf.jtarget.seminars.model.Progress)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cf.jtarget.seminars.service.ProgressService#listBySeminar(cf.jtarget.seminars
+	 * .model.Seminar)
+	 */
+	@Override
+	public List<Progress> listBySeminar(Seminar instance) {
+		return repo.listBySeminar(instance);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cf.jtarget.seminars.service.ProgressService#save(cf.jtarget.seminars.model.
+	 * Progress)
 	 */
 	@Override
 	public void save(Progress instance) {
-		// TODO Auto-generated method stub
-
+		repo.save(instance);
 	}
 
-	/* (non-Javadoc)
-	 * @see cf.jtarget.seminars.service.ProgressService#update(cf.jtarget.seminars.model.Progress)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cf.jtarget.seminars.service.ProgressService#update(cf.jtarget.seminars.model.
+	 * Progress)
 	 */
 	@Override
 	public void update(Progress instance) {
-		// TODO Auto-generated method stub
-
+		repo.save(instance);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cf.jtarget.seminars.service.ProgressService#deleteById(java.lang.Long)
 	 */
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see cf.jtarget.seminars.service.ProgressService#deleteByName(java.lang.String)
-	 */
-	@Override
-	public void deleteByName(String name) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see cf.jtarget.seminars.service.ProgressService#getAll()
-	 */
-	@Override
-	public List<Progress> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		repo.delete(id);
 	}
 
 }

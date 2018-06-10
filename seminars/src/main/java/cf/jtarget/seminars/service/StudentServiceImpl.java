@@ -5,9 +5,11 @@ package cf.jtarget.seminars.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cf.jtarget.seminars.model.Student;
+import cf.jtarget.seminars.repositories.StudentRepository;
 
 /**
  * @author dron
@@ -15,77 +17,94 @@ import cf.jtarget.seminars.model.Student;
  */
 @Service("StudentService")
 public class StudentServiceImpl implements StudentService {
+	@Autowired
+	private StudentRepository repo;
 
-	/* (non-Javadoc)
-	 * @see cf.jtarget.seminars.service.StudentService#isExist(cf.jtarget.seminars.model.Student)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cf.jtarget.seminars.service.StudentService#isExist(cf.jtarget.seminars.model.
+	 * Student)
 	 */
 	@Override
 	public boolean isExist(Student instance) {
-		// TODO Auto-generated method stub
-		return false;
+		return repo.findByName(instance.getName()) != null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cf.jtarget.seminars.service.StudentService#findById(java.lang.Long)
 	 */
 	@Override
 	public Student findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.getOne(id);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cf.jtarget.seminars.service.StudentService#findByName(java.lang.String)
 	 */
 	@Override
 	public Student findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findByName(name);
 	}
 
-	/* (non-Javadoc)
-	 * @see cf.jtarget.seminars.service.StudentService#save(cf.jtarget.seminars.model.Student)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cf.jtarget.seminars.service.StudentService#save(cf.jtarget.seminars.model.
+	 * Student)
 	 */
 	@Override
 	public void save(Student instance) {
-		// TODO Auto-generated method stub
-
+		repo.save(instance);
 	}
 
-	/* (non-Javadoc)
-	 * @see cf.jtarget.seminars.service.StudentService#update(cf.jtarget.seminars.model.Student)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cf.jtarget.seminars.service.StudentService#update(cf.jtarget.seminars.model.
+	 * Student)
 	 */
 	@Override
 	public void update(Student instance) {
-		// TODO Auto-generated method stub
-
+		repo.save(instance);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cf.jtarget.seminars.service.StudentService#deleteById(java.lang.Long)
 	 */
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
-
+		repo.delete(id);
 	}
 
-	/* (non-Javadoc)
-	 * @see cf.jtarget.seminars.service.StudentService#deleteByName(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cf.jtarget.seminars.service.StudentService#deleteByName(java.lang.String)
 	 */
 	@Override
 	public void deleteByName(String name) {
-		// TODO Auto-generated method stub
-
+		repo.delete(repo.findByName(name));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cf.jtarget.seminars.service.StudentService#getAll()
 	 */
 	@Override
 	public List<Student> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findAll();
 	}
 
 }
