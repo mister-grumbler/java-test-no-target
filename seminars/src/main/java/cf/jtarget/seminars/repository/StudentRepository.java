@@ -1,4 +1,4 @@
-package cf.jtarget.seminars.repositories;
+package cf.jtarget.seminars.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

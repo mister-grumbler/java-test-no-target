@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cf.jtarget.seminars.repositories;
+package cf.jtarget.seminars.repository;
 
 import java.util.List;
 
