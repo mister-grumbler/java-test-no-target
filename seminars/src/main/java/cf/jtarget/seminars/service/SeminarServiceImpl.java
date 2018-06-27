@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cf.jtarget.seminars.model.Seminar;
-import cf.jtarget.seminars.repositories.SeminarRepository;
+import cf.jtarget.seminars.repository.SeminarRepository;
 
 /**
  * @author dron
@@ -28,8 +28,8 @@ public class SeminarServiceImpl implements SeminarService {
 	 * Seminar)
 	 */
 	@Override
-	public boolean isExist(Seminar instance) {
-		return repo.findByName(instance.getName()) != null;
+	public boolean isExist(Long id) {
+		return repo.exists(id);
 	}
 
 	/*

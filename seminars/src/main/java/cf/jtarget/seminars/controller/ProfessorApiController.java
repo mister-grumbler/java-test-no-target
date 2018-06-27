@@ -26,7 +26,7 @@ import cf.jtarget.seminars.service.ProfessorService;
  *
  */
 @RestController
-@RequestMapping("/professor")
+@RequestMapping("/api/professor")
 public class ProfessorApiController {
 	public static final Logger logger = LoggerFactory.getLogger(ProfessorApiController.class);
 	@Autowired

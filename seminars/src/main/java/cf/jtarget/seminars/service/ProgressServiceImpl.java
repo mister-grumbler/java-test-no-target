@@ -6,16 +6,18 @@ package cf.jtarget.seminars.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import cf.jtarget.seminars.model.Progress;
 import cf.jtarget.seminars.model.Seminar;
 import cf.jtarget.seminars.model.Student;
-import cf.jtarget.seminars.repositories.ProgressRepository;
+import cf.jtarget.seminars.repository.ProgressRepository;
 
 /**
  * @author dron
  *
  */
+@Service("ProgressService")
 public class ProgressServiceImpl implements ProgressService {
 	@Autowired
 	private ProgressRepository repo;
@@ -30,16 +32,21 @@ public class ProgressServiceImpl implements ProgressService {
 		return repo.getOne(id);
 	}
 
+	@Override
+	public Progress findByIds(Long studentId, Long seminarId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * cf.jtarget.seminars.service.ProgressService#listByStudent(cf.jtarget.seminars
-	 * .model.Student)
+	 * cf.jtarget.seminars.service.ProgressService#listByStudent(cf.jtarget.seminars.model.Student)
 	 */
 	@Override
-	public List<Progress> listByStudent(Student instance) {
-		return repo.listByStudent(instance);
+	public List<Progress> findByStudent(Student student) {
+		return repo.findByStudent(student);
 	}
 
 	/*
@@ -50,8 +57,8 @@ public class ProgressServiceImpl implements ProgressService {
 	 * .model.Seminar)
 	 */
 	@Override
-	public List<Progress> listBySeminar(Seminar instance) {
-		return repo.listBySeminar(instance);
+	public List<Progress> findBySeminar(Seminar seminar) {
+		return repo.findBySeminar(seminar);
 	}
 
 	/*

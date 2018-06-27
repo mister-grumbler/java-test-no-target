@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import cf.jtarget.seminars.model.Progress;
 import cf.jtarget.seminars.model.Seminar;
 import cf.jtarget.seminars.service.ProgressService;
 import cf.jtarget.seminars.service.SeminarService;
@@ -47,12 +46,6 @@ public class SeminarApiController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<Seminar>>(result, HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/{seminarId}/progress", method = RequestMethod.GET)
-	public ResponseEntity<List<Progress>> listProgress(@PathVariable("seminarId") Long seminarId) {
-		List<Progress> result = progressService.listBySeminar(seminarId);
-		return new ResponseEntity<List<Progress>>(result, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

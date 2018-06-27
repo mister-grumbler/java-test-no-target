@@ -14,16 +14,18 @@ import cf.jtarget.seminars.model.Student;
  *
  */
 public interface ProgressService {
-    Progress findById(Long id);
+	Progress findById(Long id);
 
-    List<Progress> listByStudent(Student instance);
-    
-    List<Progress> listBySeminar(Seminar instance);
+	List<Progress> findByStudent(Student student);
 
-    void save(Progress instance);
+	List<Progress> findBySeminar(Seminar seminar);
 
-    void update(Progress instance);
+	Progress findByIds(Long studentId, Long seminarId);
 
-    void deleteById(Long id);
+	void save(Progress instance);
+
+	void update(Progress instance);
+
+	void deleteById(Long id);
 
 }

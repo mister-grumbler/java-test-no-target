@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cf.jtarget.seminars.model.Professor;
-import cf.jtarget.seminars.repositories.ProfessorRepository;
+import cf.jtarget.seminars.repository.ProfessorRepository;
 
 /**
  * @author dron
@@ -23,13 +23,11 @@ public class ProfessorServiceImpl implements ProfessorService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * cf.jtarget.seminars.service.ProfessorService#isExist(cf.jtarget.seminars.
-	 * model.Professor)
+	 * @see cf.jtarget.seminars.service.ProfessorService#isExist(java.lang.Long)
 	 */
 	@Override
-	public boolean isExist(Professor instance) {
-		return repo.findByName(instance.getName()) != null;
+	public boolean isExist(Long id) {
+		return repo.exists(id);
 	}
 
 	/*

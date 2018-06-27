@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cf.jtarget.seminars.model.Student;
-import cf.jtarget.seminars.repositories.StudentRepository;
+import cf.jtarget.seminars.repository.StudentRepository;
 
 /**
  * @author dron
@@ -24,12 +24,11 @@ public class StudentServiceImpl implements StudentService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * cf.jtarget.seminars.service.StudentService#isExist(cf.jtarget.seminars.model.
-	 * Student)
+	 * cf.jtarget.seminars.service.StudentService#isExist(java.lang.Long)
 	 */
 	@Override
-	public boolean isExist(Student instance) {
-		return repo.findByName(instance.getName()) != null;
+	public boolean isExist(Long id) {
+		return repo.exists(id);
 	}
 
 	/*

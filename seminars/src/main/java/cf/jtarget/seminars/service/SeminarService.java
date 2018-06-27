@@ -12,20 +12,20 @@ import cf.jtarget.seminars.model.Seminar;
  *
  */
 public interface SeminarService {
-    boolean isExist(Seminar instance);
+	boolean isExist(Long id);
 
-    Seminar findById(Long id);
+	Seminar findById(Long id);
 
-    Seminar findByName(String name);
+	Seminar findByName(String name);
 
-    void save(Seminar instance);
+	void save(Seminar instance);
 
-    void update(Seminar instance);
+	void update(Seminar instance);
 
-    void deleteById(Long id);
+	void deleteById(Long id);
 
-    void deleteByName(String name);
+	void deleteByName(String name);
 
-    List<Seminar> getAll();
+	List<Seminar> getAll();
 
 }

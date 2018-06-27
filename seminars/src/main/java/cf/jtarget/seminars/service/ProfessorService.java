@@ -12,7 +12,7 @@ import cf.jtarget.seminars.model.Professor;
  *
  */
 public interface ProfessorService {
-    boolean isExist(Professor instance);
+    boolean isExist(Long id);
 
     Professor findById(Long id);
 

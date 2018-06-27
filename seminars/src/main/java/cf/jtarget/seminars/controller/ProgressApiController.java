@@ -3,11 +3,14 @@
  */
 package cf.jtarget.seminars.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,4 +54,24 @@ public class ProgressApiController {
 		}
 		return new ResponseEntity<Progress>(result, HttpStatus.OK);
 	}
+
+	@RequestMapping(value = "/", params = {"seminarId"}, method = RequestMethod.GET)
+	public ResponseEntity<List<Progress>> listProgress(@PathVariable("seminarId") Long seminarId) {
+		
+		List<Progress> result = service.findBySeminar(seminarService.findById(seminarId));
+		if (!seminarService.isExist(seminarId)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<Progress>>(result, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/", params = {"studentId"}, method = RequestMethod.GET)
+	public ResponseEntity<List<Progress>> listByStudent(@PathVariable("studentId") Long studentId) {
+		if (!studentService.isExist(studentId)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		List<Progress> result = service.findByStudent(studentService.findById(studentId));
+		return new ResponseEntity<List<Progress>>(result, HttpStatus.OK);
+	}
+
 }
