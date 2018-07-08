@@ -26,13 +26,13 @@ import cf.jtarget.seminars.service.ProfessorService;
  *
  */
 @RestController
-@RequestMapping("/api/professor")
+@RequestMapping("/api")
 public class ProfessorApiController {
 	public static final Logger logger = LoggerFactory.getLogger(ProfessorApiController.class);
 	@Autowired
 	ProfessorService service;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/professor", method = RequestMethod.GET)
 	public ResponseEntity<List<Professor>> listAllProfessors() {
 		List<Professor> result = service.getAll();
 		if (result.isEmpty()) {
@@ -42,7 +42,7 @@ public class ProfessorApiController {
 		return new ResponseEntity<List<Professor>>(result, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/professor/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Professor> getProfessor(@PathVariable("id") Long id) {
 		logger.info("Record for professor with Id: {} is requested", id);
 		if (!service.isExist(id)) {
@@ -53,7 +53,7 @@ public class ProfessorApiController {
 		return new ResponseEntity<Professor>(result, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value = "/professor", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> createProfessor(@RequestBody Professor professor, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating new professor {}", professor.getName());
 		if (service.findByName(professor.getName()) != null) {
@@ -66,7 +66,7 @@ public class ProfessorApiController {
 		return new ResponseEntity<HttpStatus>(headers, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/professor/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<HttpStatus> updateProfessor(@PathVariable("id") Long id, @RequestBody Professor professor) {
 		logger.info("Updating record for professor with Id: {}", id);
 		if (!service.isExist(id)) {
@@ -81,7 +81,7 @@ public class ProfessorApiController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/professor/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<HttpStatus> deleteProfessor(@PathVariable("id") Long id) {
 		logger.info("Deleteng professor with Id: {}", id);
 		if (!service.isExist(id)) {
