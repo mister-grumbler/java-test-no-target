@@ -54,7 +54,7 @@ public class SeminarsAppTest {
 	 */
 	@Test
 	public void testDefaultResponse() throws Exception {
-		this.mockMvc.perform(get("/").with(user("user")))
+		mockMvc.perform(get("/").with(user("user")))
 				// Ensure we got past Security
 				.andExpect(status().isOk())
 				// Ensure it appears we are authenticated with user
