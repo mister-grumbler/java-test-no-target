@@ -39,7 +39,7 @@ public class StudentApiController {
 	@Autowired
 	ProgressService progressService;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Student>> listAllStudents() {
 		logger.info("List of all students is requested");
 		List<Student> result = service.getAll();
@@ -61,7 +61,7 @@ public class StudentApiController {
 		return new ResponseEntity<Student>(result, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping( method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> createStudent(@RequestBody Student student, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating record for new student: {}", student.getName());
 		if (service.findByName(student.getName()) != null) {
@@ -92,7 +92,7 @@ public class StudentApiController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<HttpStatus> deleteStudent(@PathVariable("id") Long id) {
 		logger.info("Deletion of student with Id: {} is requested", id);
-		if (service.findById(id) == null) {
+		if (!service.isExist(id)) {
 			logger.error("Unable to delete nonexistent student with Id: {}", id);
 			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}

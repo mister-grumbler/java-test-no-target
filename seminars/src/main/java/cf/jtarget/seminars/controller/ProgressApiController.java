@@ -38,7 +38,7 @@ public class ProgressApiController {
 	@Autowired
 	StudentService studentService;
 
-	@RequestMapping(value = "/", params = { "studentId", "seminarId" }, method = RequestMethod.GET)
+	@RequestMapping(params = { "studentId", "seminarId" }, method = RequestMethod.GET)
 	public ResponseEntity<Progress> getByIds(@RequestParam("studentId") Long studentId,
 			@RequestParam("seminarId") Long seminarId) {
 
@@ -55,9 +55,9 @@ public class ProgressApiController {
 		return new ResponseEntity<Progress>(result, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/", params = {"seminarId"}, method = RequestMethod.GET)
+	@RequestMapping(params = { "seminarId" }, method = RequestMethod.GET)
 	public ResponseEntity<List<Progress>> listProgress(@PathVariable("seminarId") Long seminarId) {
-		
+
 		List<Progress> result = service.findBySeminar(seminarService.findById(seminarId));
 		if (!seminarService.isExist(seminarId)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -65,7 +65,7 @@ public class ProgressApiController {
 		return new ResponseEntity<List<Progress>>(result, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/", params = {"studentId"}, method = RequestMethod.GET)
+	@RequestMapping(params = { "studentId" }, method = RequestMethod.GET)
 	public ResponseEntity<List<Progress>> listByStudent(@PathVariable("studentId") Long studentId) {
 		if (!studentService.isExist(studentId)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

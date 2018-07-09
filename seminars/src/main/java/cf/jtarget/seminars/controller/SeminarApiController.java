@@ -27,7 +27,7 @@ import cf.jtarget.seminars.service.SeminarService;
  *
  */
 @RestController
-@RequestMapping("/seminar")
+@RequestMapping("/api/seminar")
 public class SeminarApiController {
 
 	public static final Logger logger = LoggerFactory.getLogger(SeminarApiController.class);
@@ -37,7 +37,7 @@ public class SeminarApiController {
 	@Autowired
 	ProgressService progressService;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Seminar>> listSeminars() {
 		logger.info("List of seminars is requested");
 		List<Seminar> result = service.getAll();
@@ -59,7 +59,7 @@ public class SeminarApiController {
 		return new ResponseEntity<Seminar>(seminar, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> createSeminar(@RequestBody Seminar seminar, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating record for seminar {}", seminar.getName());
 		if (service.findByName(seminar.getName()) != null) {
