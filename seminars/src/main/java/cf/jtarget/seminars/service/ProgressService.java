@@ -6,19 +6,19 @@ package cf.jtarget.seminars.service;
 import java.util.List;
 
 import cf.jtarget.seminars.model.Progress;
-import cf.jtarget.seminars.model.Seminar;
-import cf.jtarget.seminars.model.Student;
 
 /**
  * @author dron
  *
  */
 public interface ProgressService {
+	boolean isExist(Long id);
+
 	Progress findById(Long id);
 
-	List<Progress> findByStudent(Student student);
+	List<Progress> findByStudentId(Long id);
 
-	List<Progress> findBySeminar(Seminar seminar);
+	List<Progress> findBySeminarId(Long id);
 
 	Progress findByIds(Long studentId, Long seminarId);
 

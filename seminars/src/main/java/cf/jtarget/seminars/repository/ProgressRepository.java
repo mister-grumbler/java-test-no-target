@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import cf.jtarget.seminars.model.Progress;
-import cf.jtarget.seminars.model.Seminar;
-import cf.jtarget.seminars.model.Student;
 
 /**
  * @author dron
@@ -18,6 +16,6 @@ import cf.jtarget.seminars.model.Student;
  */
 @Repository
 public interface ProgressRepository extends JpaRepository<Progress, Long> {
-	List<Progress> findByStudent(Student student);
-	List<Progress> findBySeminar(Seminar seminar);
+	List<Progress> findByStudentId(Long id);
+	List<Progress> findBySeminarId(Long id);
 }

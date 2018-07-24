@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cf.jtarget.seminars.model.Progress;
-import cf.jtarget.seminars.model.Seminar;
-import cf.jtarget.seminars.model.Student;
 import cf.jtarget.seminars.repository.ProgressRepository;
 
 /**
@@ -21,6 +19,16 @@ import cf.jtarget.seminars.repository.ProgressRepository;
 public class ProgressServiceImpl implements ProgressService {
 	@Autowired
 	private ProgressRepository repo;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cf.jtarget.seminars.service.ProgressService#isExist(java.lang.Long)
+	 */
+	@Override
+	public boolean isExist(Long id) {
+		return repo.exists(id);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -42,23 +50,22 @@ public class ProgressServiceImpl implements ProgressService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * cf.jtarget.seminars.service.ProgressService#listByStudent(cf.jtarget.seminars.model.Student)
+	 * cf.jtarget.seminars.service.ProgressService#findByStudentId(java.lang.Long)
 	 */
 	@Override
-	public List<Progress> findByStudent(Student student) {
-		return repo.findByStudent(student);
+	public List<Progress> findByStudentId(Long id) {
+		return repo.findByStudentId(id);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * cf.jtarget.seminars.service.ProgressService#listBySeminar(cf.jtarget.seminars
-	 * .model.Seminar)
+	 * cf.jtarget.seminars.service.ProgressService#listBySeminar(java.lang.Long)
 	 */
 	@Override
-	public List<Progress> findBySeminar(Seminar seminar) {
-		return repo.findBySeminar(seminar);
+	public List<Progress> findBySeminarId(Long id) {
+		return repo.findBySeminarId(id);
 	}
 
 	/*
