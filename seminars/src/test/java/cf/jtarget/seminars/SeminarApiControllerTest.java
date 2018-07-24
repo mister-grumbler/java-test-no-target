@@ -29,8 +29,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import cf.jtarget.seminars.model.Student;
-import cf.jtarget.seminars.service.StudentService;
+import cf.jtarget.seminars.model.Seminar;
+import cf.jtarget.seminars.service.SeminarService;
 
 /**
  * @author dron
@@ -38,7 +38,7 @@ import cf.jtarget.seminars.service.StudentService;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class StudentApiControllerTest {
+public class SeminarApiControllerTest {
 
 	@Autowired
 	private WebApplicationContext context;
@@ -46,12 +46,12 @@ public class StudentApiControllerTest {
 	private Filter springSecurityFilterChain;
 	@Autowired
 	private ObjectMapper mapper;
-	@MockBean
-	private StudentService service;
 	private MockMvc mockMvc;
 	private MockHttpServletRequestBuilder request;
-	private List<Student> students;
-	private Student ittem;
+	@MockBean
+	private SeminarService service;
+	private List<Seminar> seminars;
+	private Seminar ittem;
 
 	/**
 	 * @throws java.lang.Exception
@@ -59,81 +59,78 @@ public class StudentApiControllerTest {
 	@Before
 	public void setUp() throws Exception {
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).addFilters(springSecurityFilterChain).build();
-		ittem = new Student();
+		ittem = new Seminar();
 		ittem.setId((long) 1);
-		ittem.setName("");
-		ittem.setAddress("");
-		ittem.setEmail("");
-		ittem.setPhone("");
-		ittem.setMarksBook(32768);
-		ittem.setMarksAverage((float) 4);
-		students = new ArrayList<Student>();
-		students.add(ittem);
+		ittem.setName("Math");
+		ittem.setNumber(2);
+		ittem.setLecturer(null);
+		ittem.setFee((float) 100);
+		seminars = new ArrayList<Seminar>();
+		seminars.add(ittem);
 	}
 
 	/**
 	 * Test method for
-	 * {@link cf.jtarget.seminars.controller.StudentApiController#listAllStudents()}.
+	 * {@link cf.jtarget.seminars.controller.SeminarApiController#listSeminars()}.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testListAllStudents() throws Exception {
-		request = MockMvcRequestBuilders.get("/api/student").with(user("user"));
+	public void testListSeminars() throws Exception {
+		request = MockMvcRequestBuilders.get("/api/seminar").with(user("user"));
 		// Empty list
-		when(service.getAll()).thenReturn(new ArrayList<Student>());
+		when(service.getAll()).thenReturn(new ArrayList<Seminar>());
 		mockMvc.perform(request).andExpect(status().isNoContent());
-		// Not empty list
-		when(service.getAll()).thenReturn(students);
+		// Success
+		when(service.getAll()).thenReturn(seminars);
 		mockMvc.perform(request).andExpect(status().isOk());
 	}
 
 	/**
 	 * Test method for
-	 * {@link cf.jtarget.seminars.controller.StudentApiController#getStudent(java.lang.Long)}.
+	 * {@link cf.jtarget.seminars.controller.SeminarApiController#getSeminar(java.lang.Long)}.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetStudent() throws Exception {
-		request = MockMvcRequestBuilders.get("/api/student/1").with(user("user"));
+	public void testGetSeminar() throws Exception {
+		request = MockMvcRequestBuilders.get("/api/seminar/1").with(user("user"));
 		// No such Id
-		when(service.isExist((long) 1)).thenReturn(false);
+		when(service.findById((long) 1)).thenReturn(null);
 		mockMvc.perform(request).andExpect(status().isNotFound());
 		// Success
-		when(service.isExist((long) 1)).thenReturn(true);
 		when(service.findById((long) 1)).thenReturn(ittem);
 		mockMvc.perform(request).andExpect(status().isOk());
 	}
 
 	/**
 	 * Test method for
-	 * {@link cf.jtarget.seminars.controller.StudentApiController#createStudent(cf.jtarget.seminars.model.Student, org.springframework.web.util.UriComponentsBuilder)}.
+	 * {@link cf.jtarget.seminars.controller.SeminarApiController#createSeminar(cf.jtarget.seminars.model.Seminar, org.springframework.web.util.UriComponentsBuilder)}.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testCreateStudent() throws Exception {
-		request = MockMvcRequestBuilders.post("/api/student").with(user("user")).contentType(MediaType.APPLICATION_JSON)
+	public void testCreateSeminar() throws Exception {
+		request = MockMvcRequestBuilders.post("/api/seminar").with(user("user")).contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsString(ittem));
+		// Already exists
+		when(service.findByName(ittem.getName())).thenReturn(ittem);
+		mockMvc.perform(request).andExpect(status().isConflict());
 		// Success
 		when(service.findByName(ittem.getName())).thenReturn(null);
 		mockMvc.perform(request).andExpect(status().isCreated())
-				.andExpect(redirectedUrlPattern("http://*/api/student/1"));
-		// Name is already exist
-		when(service.findByName(ittem.getName())).thenReturn(ittem);
-		mockMvc.perform(request).andExpect(status().isConflict());
+				.andExpect(redirectedUrlPattern("http://*/api/seminar/1"));
 	}
 
 	/**
 	 * Test method for
-	 * {@link cf.jtarget.seminars.controller.StudentApiController#saveStudent(java.lang.Long, cf.jtarget.seminars.model.Student)}.
+	 * {@link cf.jtarget.seminars.controller.SeminarApiController#saveSeminar(java.lang.Long, cf.jtarget.seminars.model.Seminar)}.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testSaveStudent() throws Exception {
-		request = MockMvcRequestBuilders.put("/api/student/1").with(user("user"))
+	public void testSaveSeminar() throws Exception {
+		request = MockMvcRequestBuilders.put("/api/seminar/1").with(user("user"))
 				.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(ittem));
 		// No such Id
 		when(service.isExist((long) 1)).thenReturn(false);
@@ -141,22 +138,22 @@ public class StudentApiControllerTest {
 		// Success
 		when(service.isExist((long) 1)).thenReturn(true);
 		mockMvc.perform(request).andExpect(status().isOk());
-		// Id in URI is not equals Id in JSON
-		request = MockMvcRequestBuilders.put("/api/student/2").with(user("user"))
+		// Bad request
+		request = MockMvcRequestBuilders.put("/api/seminar/3").with(user("user"))
 				.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(ittem));
 		mockMvc.perform(request).andExpect(status().isNoContent());
 	}
 
 	/**
 	 * Test method for
-	 * {@link cf.jtarget.seminars.controller.StudentApiController#deleteStudent(java.lang.Long)}.
+	 * {@link cf.jtarget.seminars.controller.SeminarApiController#deleteSeminar(java.lang.Long)}.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testDeleteStudent() throws Exception {
-		request = MockMvcRequestBuilders.delete("/api/student/1").with(user("user"));
-		// Not exist
+	public void testDeleteSeminar() throws Exception {
+		request = MockMvcRequestBuilders.delete("/api/seminar/1").with(user("user"));
+		// No such Id
 		when(service.isExist((long) 1)).thenReturn(false);
 		mockMvc.perform(request).andExpect(status().isNotFound());
 		// Success

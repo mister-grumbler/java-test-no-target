@@ -6,6 +6,7 @@ package cf.jtarget.seminars;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -122,8 +123,13 @@ public class ProfessorApiControllerTest {
 		assertThat(service).isNotNull();
 		request = MockMvcRequestBuilders.post("/api/professor").with(user("user"))
 				.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(ittem));
+		// Success
 		when(service.findByName(ittem.getName())).thenReturn(null);
-		this.mockMvc.perform(request).andExpect(status().isCreated());
+		this.mockMvc.perform(request).andExpect(status().isCreated())
+				.andExpect(redirectedUrlPattern("http://*/api/professor/1"));
+		// Name is exist
+		when(service.findByName(ittem.getName())).thenReturn(ittem);
+		this.mockMvc.perform(request).andExpect(status().isConflict());
 	}
 
 	/**
@@ -143,19 +149,20 @@ public class ProfessorApiControllerTest {
 		// No such Id
 		when(service.isExist((long) 1)).thenReturn(false);
 		this.mockMvc.perform(request).andExpect(status().isNotFound());
-		// Path Id and ittem.id is not equal
+		// Bad formed request: Path Id is not equal ittem.id.
 		ittem.setId((long) 2);
 		request = MockMvcRequestBuilders.put("/api/professor/1").with(user("user"))
 				.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(ittem));
 		when(service.isExist((long) 1)).thenReturn(true);
-		this.mockMvc.perform(request).andExpect(status().isNoContent());
+		this.mockMvc.perform(request).andExpect(status().isBadRequest());
 		ittem.setId((long) 1);
 	}
 
 	/**
 	 * Test method for
 	 * {@link cf.jtarget.seminars.controller.ProfessorApiController#deleteProfessor(java.lang.Long)}.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	@Test
 	public void testDeleteProfessor() throws Exception {
