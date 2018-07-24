@@ -14,23 +14,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 @Entity
 @Table(name = "APP_PROGRESS")
 public class Progress {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "STUDENT_ID", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Student student;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SEMINAR_ID", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Seminar seminar;
 	@ElementCollection
 	@CollectionTable(name = "PROGRESS_MARKS", joinColumns = @JoinColumn(name = "PROGRESS_ID"))
@@ -40,7 +35,7 @@ public class Progress {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -48,7 +43,7 @@ public class Progress {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -63,8 +58,8 @@ public class Progress {
 	 * @param student
 	 *            the student to set
 	 */
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setStudent(Student instance) {
+		this.student = instance;
 	}
 
 	/**
@@ -78,8 +73,8 @@ public class Progress {
 	 * @param seminar
 	 *            the seminar to set
 	 */
-	public void setSeminar(Seminar seminar) {
-		this.seminar = seminar;
+	public void setSeminar(Seminar instance) {
+		this.seminar = instance;
 	}
 
 	/**
