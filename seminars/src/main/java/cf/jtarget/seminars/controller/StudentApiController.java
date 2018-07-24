@@ -61,7 +61,7 @@ public class StudentApiController {
 		return new ResponseEntity<Student>(result, HttpStatus.OK);
 	}
 
-	@RequestMapping( method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> createStudent(@RequestBody Student student, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating record for new student: {}", student.getName());
 		if (service.findByName(student.getName()) != null) {
