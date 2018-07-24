@@ -70,13 +70,13 @@ public class ProfessorApiController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<HttpStatus> updateProfessor(@PathVariable("id") Long id, @RequestBody Professor professor) {
 		logger.info("Updating record for professor with Id: {}", id);
+		if (professor.getId() != id) {
+			logger.error("Invalid data for professor {} with Id: {}", professor.getName(), id);
+			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}
 		if (!service.isExist(id)) {
 			logger.error("Professor with Id: {} is not found", id);
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		if (professor.getId() != id) {
-			logger.error("Invalid date for professor {} with Id: {}", professor.getName(), id);
-			return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
 		}
 		service.save(professor);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
