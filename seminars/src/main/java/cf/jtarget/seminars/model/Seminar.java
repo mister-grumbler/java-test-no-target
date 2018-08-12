@@ -15,6 +15,10 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import cf.jtarget.seminars.serializer.ProfessorIdOnly;
+
 @Entity
 @Table(name = "APP_SEMINAR")
 public class Seminar implements Serializable {
@@ -32,6 +36,7 @@ public class Seminar implements Serializable {
 	 * @OneToMany(mappedBy = "seminar", cascade = CascadeType.ALL) private
 	 * Set<Progress> progress;
 	 */
+	@JsonSerialize(using = ProfessorIdOnly.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PROFESSOR_ID", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)

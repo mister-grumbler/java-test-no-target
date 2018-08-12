@@ -14,6 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import cf.jtarget.seminars.serializer.SeminarIdOnly;
+import cf.jtarget.seminars.serializer.StudentIdOnly;
+
 @Entity
 @Table(name = "APP_PROGRESS")
 public class Progress {
@@ -21,9 +26,11 @@ public class Progress {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@JsonSerialize(using = StudentIdOnly.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "STUDENT_ID", nullable = false)
 	private Student student;
+	@JsonSerialize(using = SeminarIdOnly.class) 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SEMINAR_ID", nullable = false)
 	private Seminar seminar;
