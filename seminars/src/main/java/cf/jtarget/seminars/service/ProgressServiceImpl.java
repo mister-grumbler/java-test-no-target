@@ -40,6 +40,11 @@ public class ProgressServiceImpl implements ProgressService {
 		return repo.getOne(id);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cf.jtarget.seminars.service.ProgressService#findByIds(java.lang.Long, java.lang.Long)
+	 */
 	@Override
 	public Progress findByIds(Long studentId, Long seminarId) {
 		// TODO Auto-generated method stub
@@ -100,6 +105,16 @@ public class ProgressServiceImpl implements ProgressService {
 	@Override
 	public void deleteById(Long id) {
 		repo.delete(id);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cf.jtarget.seminars.service.ProgressService#getAll()
+	 */
+	@Override
+	public List<Progress> getAll() {
+		return repo.findAll();
 	}
 
 }
