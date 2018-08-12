@@ -5,3 +5,13 @@ insert into app_student(address,email,marksaverage,marksbook,name,phone) values(
 insert into app_seminar(professor_id,name,number,fee) values("1","Mathematics","01","100");
 insert into app_seminar(professor_id,name,number,fee) values("1","Physics","02","100");
 insert into app_seminar(professor_id,name,number,fee) values("2","Social Communications","03","100");
+insert into app_progress(seminar_id, student_id) values("1","1");
+insert into app_progress(seminar_id, student_id) values("1","2");
+insert into app_progress(seminar_id, student_id) values("2","1");
+insert into app_progress(seminar_id, student_id) values("2","2");
+insert into progress_marks(progress_id, marks) values("1","4");
+insert into progress_marks(progress_id, marks) values("1","4");
+insert into progress_marks(progress_id, marks) values("1","3");
+insert into progress_marks(progress_id, marks) values("2","5");
+insert into progress_marks(progress_id, marks) values("2","4");
+insert into progress_marks(progress_id, marks) values("2","3");
