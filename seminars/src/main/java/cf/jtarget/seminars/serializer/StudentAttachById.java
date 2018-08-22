@@ -16,8 +16,8 @@ import cf.jtarget.seminars.service.StudentService;
 /**
  * Deserialization supporting class. Used to attach appropriate instance of
  * Student object to deserialized instance of Progress object. If there is no
- * access to instance of StudentService then bare instance of Student object is
- * attached.
+ * access to instance of StudentService or appropriate instance of Student not
+ * exist then bare instance of Student object is attached.
  * 
  * @author dron
  *
