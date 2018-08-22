@@ -14,9 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import cf.jtarget.seminars.serializer.SeminarAttachById;
 import cf.jtarget.seminars.serializer.SeminarIdOnly;
+import cf.jtarget.seminars.serializer.StudentAttachById;
 import cf.jtarget.seminars.serializer.StudentIdOnly;
 
 @Entity
@@ -27,10 +30,12 @@ public class Progress {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@JsonSerialize(using = StudentIdOnly.class)
+	@JsonDeserialize(using = StudentAttachById.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "STUDENT_ID", nullable = false)
 	private Student student;
-	@JsonSerialize(using = SeminarIdOnly.class) 
+	@JsonSerialize(using = SeminarIdOnly.class)
+	@JsonDeserialize(using = SeminarAttachById.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SEMINAR_ID", nullable = false)
 	private Seminar seminar;

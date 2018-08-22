@@ -18,7 +18,6 @@ public class Professor {
 	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	// private Set<Seminar> seminars;
 	@Column(name = "NAME")
 	private String name;
 	@Column(name = "ADDRESS")

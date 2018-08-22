@@ -28,7 +28,6 @@ public class Student {
 	@Column(name = "MARKSAVERAGE")
 	private Float marksAverage;
 
-	// private Set<Progress> progress;
 	/**
 	 * @return the id
 	 */

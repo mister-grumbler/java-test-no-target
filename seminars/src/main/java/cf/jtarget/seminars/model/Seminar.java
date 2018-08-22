@@ -1,7 +1,5 @@
 package cf.jtarget.seminars.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,28 +13,22 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import cf.jtarget.seminars.serializer.ProfessorAttachById;
 import cf.jtarget.seminars.serializer.ProfessorIdOnly;
 
 @Entity
 @Table(name = "APP_SEMINAR")
-public class Seminar implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class Seminar {
 
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	/*
-	 * @OneToMany(mappedBy = "seminar", cascade = CascadeType.ALL) private
-	 * Set<Progress> progress;
-	 */
 	@JsonSerialize(using = ProfessorIdOnly.class)
+	@JsonDeserialize(using = ProfessorAttachById.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PROFESSOR_ID", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
