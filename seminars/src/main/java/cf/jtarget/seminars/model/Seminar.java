@@ -30,7 +30,7 @@ public class Seminar {
 	@JsonSerialize(using = ProfessorIdOnly.class)
 	@JsonDeserialize(using = ProfessorAttachById.class)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PROFESSOR_ID", nullable = false)
+	@JoinColumn(name = "PROFESSOR_ID", nullable = true)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Professor lecturer;
 	@Column(name = "NUMBER")
