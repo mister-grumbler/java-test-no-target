@@ -3,28 +3,29 @@
  */
 package cf.jtarget.seminars.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.InjectableValues;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import cf.jtarget.seminars.model.Professor;
-import cf.jtarget.seminars.model.Progress;
-import cf.jtarget.seminars.model.Seminar;
-import cf.jtarget.seminars.model.Student;
+import cf.jtarget.seminars.serializer.RootHolder;
 import cf.jtarget.seminars.service.ProfessorService;
 import cf.jtarget.seminars.service.ProgressService;
 import cf.jtarget.seminars.service.SeminarService;
@@ -52,34 +53,80 @@ public class BackupApiController {
 	private ObjectMapper mapper = new ObjectMapper();
 
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> backup() {
+	public ResponseEntity<?> serialize() {
 		logger.info("Creating a full backup in JSON format.");
-		Map<String, List> fullSet = new HashMap<String, List>();
-		List<Seminar> seminars = seminarService.getAll();
-		List<Professor> professors = professorService.getAll();
-		List<Student> students = studentService.getAll();
-		List<Progress> progresses = progressService.getAll();
-		fullSet.put("students", students);
-		fullSet.put("seminars", seminars);
-		fullSet.put("professors", professors);
-		fullSet.put("progresses", progresses);
-		
+		String result;
+		RootHolder root = new RootHolder();
+		root.setSeminars(seminarService.getAll());
+		root.setProfessors(professorService.getAll());
+		root.setStudents(studentService.getAll());
+		root.setProgresses(progressService.getAll());
+
 		mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		try {
-			return new ResponseEntity<>(mapper.writeValueAsString(fullSet), HttpStatus.OK);
+			result = mapper.writeValueAsString(root);
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
+			logger.error("Failed to serialize data due to:", e);
 			e.printStackTrace();
 			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		// return new ResponseEntity<>(HttpStatus.OK);
+		// TODO name for output JSON file should not be hard-coded!
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		headers.add("Content-Disposition", "filename=\"backup-dump.json\"");
+		headers.add("Pragma", "no-cache");
+		headers.add("Expires", "0");
+		return ResponseEntity.ok()
+				.headers(headers)
+				.contentLength(result.length())
+				.contentType(MediaType.parseMediaType("application/octet-stream"))
+				.body(result);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> restore() {
+	public ResponseEntity<?> deserialize(@RequestBody String jsonInput) {
 		logger.info("Trying to retrieve data from JSON input.");
+
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+		InjectableValues valuesToInject = new InjectableValues.Std()
+				.addValue(StudentService.class.getName(), studentService)
+				.addValue(SeminarService.class.getName(), seminarService)
+				.addValue(ProfessorService.class.getName(), professorService);
+		
+		RootHolder root = new RootHolder();
+		try {
+			root = mapper.setInjectableValues(valuesToInject).readValue(jsonInput.substring(jsonInput.indexOf("{")), RootHolder.class);
+		} catch (JsonParseException e) {
+			// TODO Add logger message
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (JsonMappingException e) {
+			// TODO Add logger message
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (IOException e) {
+			// TODO Add logger message
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		root.getStudents().forEach((student) -> {
+			if (!studentService.isExist(student.getId())) {
+				studentService.save(student);
+			} else logger.info("Student with Id: {} is already exists.", student.getId());
+		});
+		root.getProfessors().forEach((professor) -> {
+			if (!professorService.isExist(professor.getId())) {
+				professorService.save(professor);
+			} else logger.info("Professor with Id: {} is already exists.", professor.getId());
+		});
+		root.getSeminars().forEach((seminar) -> {
+			if (!seminarService.isExist(seminar.getId())) {
+				seminarService.save(seminar);
+			} else logger.info("Seminar with Id: {} is already exists.", seminar.getId());
+		});
 		return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
 	}
 
