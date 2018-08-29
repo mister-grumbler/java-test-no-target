@@ -1,6 +1,6 @@
 <!DOCTYPE html>
  
-<html lang="en" ng-app="crudApp">
+<html lang="en" ng-app="seminarsApp">
     <head>
         <title>${title}</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
