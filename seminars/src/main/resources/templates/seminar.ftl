@@ -1,0 +1,1 @@
+<h2>Management page for seminars</h2>

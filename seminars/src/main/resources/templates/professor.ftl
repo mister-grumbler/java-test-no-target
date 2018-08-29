@@ -1,0 +1,1 @@
+<h2>Management page for professors</h2>
