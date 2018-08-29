@@ -4,7 +4,7 @@
     <head>
         <title>${title}</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="css/app.css" rel="stylesheet"/>
+        <link href="css/seminarsApp.css" rel="stylesheet"/>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
     </head>
