@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,10 +53,15 @@ public class BackupApiController {
 	private ProgressService progressService;
 	private ObjectMapper mapper = new ObjectMapper();
 
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> serialize() {
+	@RequestMapping(value = "/{fileName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> serialize(@PathVariable("fileName") String fileName) {
 		logger.info("Creating a full backup in JSON format.");
 		String result;
+		if (fileName == null || fileName.isEmpty()) {
+			fileName = "backup-dump";
+		} else if (fileName.endsWith(".json")) {
+			fileName = fileName.substring(0,fileName.length() - ".json".length());;
+		}
 		RootHolder root = new RootHolder();
 		root.setSeminars(seminarService.getAll());
 		root.setProfessors(professorService.getAll());
@@ -72,10 +78,9 @@ public class BackupApiController {
 			e.printStackTrace();
 			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		// TODO name for output JSON file should not be hard-coded!
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-		headers.add("Content-Disposition", "filename=\"backup-dump.json\"");
+		headers.add("Content-Disposition", "filename=\"" + fileName + ".json\"");
 		headers.add("Pragma", "no-cache");
 		headers.add("Expires", "0");
 		return ResponseEntity.ok()
@@ -112,6 +117,7 @@ public class BackupApiController {
 			e.printStackTrace();
 			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		// Saving data into store
 		root.getStudents().forEach((student) -> {
 			if (!studentService.isExist(student.getId())) {
 				studentService.save(student);
