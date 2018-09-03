@@ -1,0 +1,1 @@
+<h2>TODO: Some summary info about current seminars should be here</h2>
