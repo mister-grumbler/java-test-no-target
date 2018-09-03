@@ -1,6 +1,9 @@
 var app = angular.module('seminarsApp', [ 'ngRoute' ]);
 app.config(function($routeProvider) {
 	$routeProvider
+	.when('/summary', {
+		templateUrl : 'partials/summary.ftl'
+	})
 	.when('/backup', {
 		controller : 'BackupController',
 		controllerAs : 'ctrl',
@@ -22,6 +25,6 @@ app.config(function($routeProvider) {
 		templateUrl : 'partials/student.ftl'
 	})
 	.otherwise({
-		redirectTo: '/seminar'
+		redirectTo: '/summary'
     });
 });
