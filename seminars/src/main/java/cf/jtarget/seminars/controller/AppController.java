@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AppController {
 
-	private static final String PAGES = "backup seminar professor student";
+	private static final String PAGES = "summary backup seminar professor student";
 	@RequestMapping("/")
 	String home(ModelMap model) {
 		model.addAttribute("title", "Seminars Management");
@@ -24,7 +24,7 @@ public class AppController {
 	@RequestMapping("/partials/{page}")
 	String partialHandler(@PathVariable("page") final String page) {
 		if (!PAGES.contains(page.toLowerCase())) {
-			return "seminar";
+			return "summary";
 		}
 		return page;
 	}
