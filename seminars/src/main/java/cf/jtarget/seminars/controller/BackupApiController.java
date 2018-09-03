@@ -58,7 +58,7 @@ public class BackupApiController {
 		logger.info("Creating a full backup in JSON format.");
 		String result;
 		if (fileName == null || fileName.isEmpty()) {
-			fileName = "backup-dump";
+			fileName = "seminars-backup";
 		} else if (fileName.endsWith(".json")) {
 			fileName = fileName.substring(0,fileName.length() - ".json".length());;
 		}
@@ -83,6 +83,8 @@ public class BackupApiController {
 		headers.add("Content-Disposition", "filename=\"" + fileName + ".json\"");
 		headers.add("Pragma", "no-cache");
 		headers.add("Expires", "0");
+
+		logger.info("Sending {}.json", fileName);
 		return ResponseEntity.ok()
 				.headers(headers)
 				.contentLength(result.length())
