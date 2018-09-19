@@ -12,12 +12,26 @@ app.config(function($routeProvider) {
 	.when('/seminar', {
 		controller : 'SeminarController',
 		controllerAs : 'ctrl',
-		templateUrl : 'partials/seminar.ftl'
+		templateUrl : 'partials/seminar.ftl',
+		resolve : {
+			seminars: function($q, SeminarService) {
+				var deferred = $q.defer();
+				SeminarService.loadAllSeminars().then(deferred.resolve, deferred.resolve);
+                return deferred.promise;
+			}
+		}
 	})
 	.when('/professor', {
 		controller : 'ProfessorController',
 		controllerAs : 'ctrl',
-		templateUrl : 'partials/professor.ftl'
+		templateUrl : 'partials/professor.ftl',
+		resolve : {
+			professors: function($q, ProfessorService) {
+				var deferred = $q.defer();
+				ProfessorService.loadAllProfessors().then(deferred.resolve, deferred.resolve);
+				return deferred.promise;
+			}
+		}
 	})
 	.when('/student', {
 		controller : 'StudentController',
