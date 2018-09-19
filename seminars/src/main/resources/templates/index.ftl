@@ -23,9 +23,12 @@
 		</nav>
 		<div ng-view></div>
         <script src="js/app/SeminarsApp.js"></script>
+        <script src="js/app/BackupService.js"></script>
         <script src="js/app/BackupController.js"></script>
+        <script src="js/app/SeminarService.js"></script>
         <script src="js/app/SeminarController.js"></script>
         <script src="js/app/StudentController.js"></script>
+        <script src="js/app/ProfessorService.js"></script>
         <script src="js/app/ProfessorController.js"></script>
     </body>
 </html>
