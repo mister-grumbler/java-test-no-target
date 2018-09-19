@@ -10,7 +10,7 @@ You may set desired name and choose to add date stamp for backup file before cli
 	      <input type="text" class="form-control" ng-model="filename" id="filename" placeholder="seminars-backup.json">
 	    </div>
         <div class="col-sm-3">
-          <input class="form-check-input" type="checkbox" ng-model="dateStampOn" ng-change="dateStampOnCheck()" id="dateStampOn">
+          <input class="form-check-input" type="checkbox" ng-model="dateStampOn" ng-change="ctrl.dateStampOnCheck()" id="dateStampOn">
           <label class="form-check-label" for="dateStampOn">Add date stamp to filename</label>
         </div>
 	    <div class="col-sm-1">
@@ -35,7 +35,7 @@ You may change URL and must choose file before clicking <b>Upload</b> button.
 	      <label class="custom-file-label" for="file">{{file.name}}</label>
 	    </div>
 	    <div class="col-sm-1">
-	      <button ng-click="uploadFile()" class="btn btn-default" ng-disabled="!file.name">Upload</button>
+	      <button ng-click="ctrl.uploadFile()" class="btn btn-default" ng-disabled="!file.name">Upload</button>
 	    </div>
 	  </div>
 	</form>
