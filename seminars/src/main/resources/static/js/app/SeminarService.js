@@ -18,7 +18,7 @@ angular.module('seminarsApp').factory('SeminarService',['$http', '$q', '$window'
 			if(typeof(Storage) !== "undefined") {
 				$window.sessionStorage.setItem("seminarsList", angular.toJson(response.data));
 			} else {
-				console.log("Unable to save due to sessionStorage is not supported.");
+				console.log("Unable to save due to sessionStorage is not available.");
 			}
 			deferred.resolve(response);
 		},
@@ -31,9 +31,15 @@ angular.module('seminarsApp').factory('SeminarService',['$http', '$q', '$window'
 	function getAllSeminars() {
 		console.log("Seminars list is: " + $window.sessionStorage.seminarsList);
 		if(typeof(Storage) !== "undefined") {
-			return angular.fromJson($window.sessionStorage.getItem("seminarsList"));
+			var lecturers = angular.fromJson($window.sessionStorage.getItem("professorsList"));
+			var seminars = angular.fromJson($window.sessionStorage.getItem("seminarsList"));
+			seminars.forEach(function(item){
+				item.lecturer = lecturers[item.lecturer - 1].name;
+			});
+			return seminars;
 		} else {
-			return "The sessionStorage is not supported.";
+			console.log("The sessionStorage is not available.");
+			return [];
 		}
 	}
 	function createSeminar() {

@@ -18,6 +18,11 @@ app.config(function($routeProvider) {
 				var deferred = $q.defer();
 				SeminarService.loadAllSeminars().then(deferred.resolve, deferred.resolve);
                 return deferred.promise;
+			},
+			lecturers: function($q, ProfessorService) {
+				var deferred = $q.defer();
+				ProfessorService.loadAllProfessors().then(deferred.resolve, deferred.resolve);
+				return deferred.promise;
 			}
 		}
 	})
