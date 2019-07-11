@@ -107,15 +107,15 @@ public class BackupApiController {
 		try {
 			root = mapper.setInjectableValues(valuesToInject).readValue(jsonInput.substring(jsonInput.indexOf("{")), RootHolder.class);
 		} catch (JsonParseException e) {
-			// TODO Add logger message
+			logger.info("Fail to deserialize input: " + e.getMessage());
 			e.printStackTrace();
 			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (JsonMappingException e) {
-			// TODO Add logger message
+			logger.info("Fail to deserialize input: " + e.getMessage());
 			e.printStackTrace();
 			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (IOException e) {
-			// TODO Add logger message
+			logger.info("Fail to deserialize input: " + e.getMessage());
 			e.printStackTrace();
 			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
