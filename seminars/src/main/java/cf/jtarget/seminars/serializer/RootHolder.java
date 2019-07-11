@@ -12,6 +12,9 @@ import cf.jtarget.seminars.model.Seminar;
 import cf.jtarget.seminars.model.Student;
 
 /**
+ * The POJO being used during serialization and deserialization as holder of
+ * root structure of JSON file.
+ * 
  * @author dron
  *
  */

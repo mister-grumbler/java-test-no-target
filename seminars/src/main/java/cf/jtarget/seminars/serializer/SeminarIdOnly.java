@@ -13,6 +13,11 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import cf.jtarget.seminars.model.Seminar;
 
 /**
+ * Custom serializer for {@link cf.jtarget.seminars.model.Seminar} POJO when it
+ * resides in {@link cf.jtarget.seminars.model.Progress} POJO
+ * 
+ * Only Id of seminar instead of whole POJO should be stored as a reference.
+ * 
  * @author dron
  *
  */
