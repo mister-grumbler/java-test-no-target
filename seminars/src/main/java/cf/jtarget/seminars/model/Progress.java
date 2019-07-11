@@ -14,6 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -24,6 +28,7 @@ import cf.jtarget.seminars.serializer.StudentIdOnly;
 
 @Entity
 @Table(name = "APP_PROGRESS")
+@JsonIgnoreProperties({ "handler", "hibernateLazyInitializer" })
 public class Progress {
 
 	@Id
@@ -33,11 +38,13 @@ public class Progress {
 	@JsonDeserialize(using = StudentAttachById.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "STUDENT_ID", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Student student;
 	@JsonSerialize(using = SeminarIdOnly.class)
 	@JsonDeserialize(using = SeminarAttachById.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SEMINAR_ID", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Seminar seminar;
 	@ElementCollection
 	@CollectionTable(name = "PROGRESS_MARKS", joinColumns = @JoinColumn(name = "PROGRESS_ID"))

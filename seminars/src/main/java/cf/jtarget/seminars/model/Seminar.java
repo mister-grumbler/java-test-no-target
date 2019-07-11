@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -21,6 +22,7 @@ import cf.jtarget.seminars.serializer.ProfessorIdOnly;
 
 @Entity
 @Table(name = "APP_SEMINAR")
+@JsonIgnoreProperties({ "handler", "hibernateLazyInitializer" })
 public class Seminar {
 
 	@Id
