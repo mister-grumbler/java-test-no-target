@@ -6,7 +6,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-      dialect: org.hibernate.dialect.MySQLDialect
+      dialect: org.hibernate.dialect.MySQL5Dialect
   profiles: default
   datasource:
     name: seminardb
