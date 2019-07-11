@@ -34,6 +34,7 @@ public class ProfessorApiController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Professor>> listAllProfessors() {
+		logger.info("List of professors is requested");
 		List<Professor> result = service.getAll();
 		if (result.isEmpty()) {
 			logger.error("No records for professor is exists");

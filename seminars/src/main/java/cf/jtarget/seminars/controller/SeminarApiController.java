@@ -45,6 +45,7 @@ public class SeminarApiController {
 			logger.warn("No content for seminars");
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
+		logger.info("Ready to deliver {} seminars", result.size());
 		return new ResponseEntity<List<Seminar>>(result, HttpStatus.OK);
 	}
 
